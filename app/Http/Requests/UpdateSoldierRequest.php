@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestSoldier extends FormRequest
+class UpdateSoldierRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,21 +37,6 @@ class RequestSoldier extends FormRequest
             'start_date' => 'required',  // إذا كان الجندي في حالة خاصة
             'regiment_id' => 'required',  // إذا كان الجندي في حالة خاصة
             // أضف المزيد من الحقول لو كنت محتاج.
-        ];
-    }
-     /**
-     * تحديد رسائل التحقق المخصصة.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'police_number.required' => 'رقم الشرطة مطلوب.',
-            'name.required' => 'اسم الضابط مطلوب.',
-            'national_id.required' => 'الرقم القومي مطلوب.',
-            'date_of_conscription.required' => 'تاريخ التجنيد مطلوب.',
-            'governorate.required' => 'المحافظة مطلوبة.',
         ];
     }
 }

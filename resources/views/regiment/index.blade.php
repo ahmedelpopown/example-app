@@ -45,7 +45,7 @@
                 <tr>
                 <td>
             <a href="{{ route('regiments.show', $regiment->id) }}" class="btn btn-sm btn-primary">
-                عرض الجنود
+             {{$regiment->name}}
             </a>
         </td>
     <td>

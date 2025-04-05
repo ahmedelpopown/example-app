@@ -21,7 +21,6 @@ return new class extends Migration {
             $table->string('phone_number');
             $table->string('medical_condition');
             $table->string('confidentiality');
-            $table->string('authority');
             $table->string('job');
 
             $table->text('notes')->nullable(); // ملاحظات

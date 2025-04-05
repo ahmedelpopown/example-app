@@ -24,7 +24,7 @@ class SoldiersDataController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**

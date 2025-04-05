@@ -29,7 +29,7 @@ class SoldierFactory extends Factory
                 'phone_number' => $this->faker->phoneNumber,
                 'medical_condition' => $this->faker->randomElement(['سليم', 'مصاب', 'مزمن']),
                 'confidentiality' => $this->faker->randomElement(['عادي', 'سري', 'سري جداً']),
-                'authority' => $this->faker->company,
+               
                 'job' => $this->faker->jobTitle,
                 'notes' => $this->faker->optional()->sentence,
                 'special_case' => $this->faker->boolean,

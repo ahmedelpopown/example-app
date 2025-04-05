@@ -23,17 +23,28 @@
             <tr>
             <th>ID</th>
             <th>الاسم</th>
+
             <th>رقم الشرطه</th>
+
             <th>الرقم القومي</th>
+
             <th>تاريخ التجنيد</th>
+
             <th>التسريح من التجنيد</th>
+
             <th>المحافظه</th>
             <th>رقم الهاتف</th>
+
             <th>الحاله الطبيه</th>
+
             <th>الجهة</th>
+
             <th>الوظيفه</th>
+
             <th>ملاحظات</th>
+
             <th>حاله خاصه</th>
+
             <th>بدء العمل</th>
             <th>عمليات</th>
             </tr>
@@ -46,18 +57,29 @@
         
         <td>{{$soldier->id}}</td>
         <td>{{$soldier->name}}</td>
+
         <td>{{$soldier->police_number}}</td>
+
         <td>{{$soldier->national_id}}</td>
+
         <td>{{$soldier->date_of_conscription}}</td>
+
         <td>{{$soldier->discharge_from_conscription}}</td>
+
         <td>{{$soldier->governorate}}</td>
         <td>{{$soldier->phone_number}}</td>
+
         <td>{{$soldier->medical_condition}}</td>
+
         <td>{{$soldier->confidentiality}}</td>
-        <td>{{$soldier->authority}}</td>
+
         <td>{{$soldier->job}}</td>
+
         <td>{{$soldier->notes}}</td>
+
         <td>{{$soldier->special_case}}</td>
+        <td>{{$soldier->start_date}}</td>
+
         <td>
     <a href="{{ route('soldiers.show', $soldier->id) }}" class="btn btn-info btn-sm">عرض</a>
     <a href="{{ route('soldiers.edit', $soldier->id) }}" class="btn btn-warning btn-sm">تعديل</a>

@@ -19,7 +19,7 @@ class Soldier extends Model
         'phone_number',
         'medical_condition',
         'confidentiality',
-        'authority',
+   
         'job',
         'notes',
         'special_case',

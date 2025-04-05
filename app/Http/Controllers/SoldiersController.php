@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestSoldier;
+use App\Http\Requests\UpdateSoldierRequest;
 use App\Models\Regiment;
 use App\Models\Soldier;
 use Illuminate\Http\Request;
@@ -63,22 +64,39 @@ class SoldiersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $soldier = Soldier::findOrFail($id); // جلب الجندي باستخدام الـ ID
+        $regiments = Regiment::all(); // جلب كل السرايا لتحديد السريه الخاصة بالجندي
+        return view('soldiers.edit', compact('soldier', 'regiments'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateSoldierRequest $request, string $id)
     {
-        //
-    }
+        $soldier = Soldier::findOrFail($id);
+    
+        // تحديث البيانات باستخدام الـ Request
+        $soldier->update($request->validated());
+    
+        // إعادة التوجيه مع رسالة نجاح
+        return redirect()->route('regiment.index', $soldier->id)->with('success', 'تم التعديل بنجاح');
+    
+ 
+     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $soldier = Soldier::findOrFail($id);
+
+    // حذف الجندي
+    $soldier->delete();
+
+    // بعد الحذف، العودة إلى صفحة الجنود مع رسالة نجاح
+    return redirect()->route('regiment.index')->with('success', 'تم حذف الجندي بنجاح');
     }
 }
