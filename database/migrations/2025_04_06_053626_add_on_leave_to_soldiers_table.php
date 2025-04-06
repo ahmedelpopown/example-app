@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('soldiers', function (Blueprint $table) {
-            // $table->dropColumn('authority');
+            $table->boolean('on_leave')->default(false);
         });
     }
 
@@ -22,6 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('soldiers', function (Blueprint $table) {
-         });
+            $table->dropColumn('on_leave');  // حذف العمود إذا تم التراجع عن الـ migration
+
+        });
     }
 };

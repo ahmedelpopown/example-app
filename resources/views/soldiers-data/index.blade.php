@@ -9,7 +9,7 @@
       <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-
+    
         <!-- /.card -->
 
         <div class="card">
@@ -17,6 +17,13 @@
           <h3 class="card-title">DataTable with default features</h3>
           <a href="{{ route('soldiers.create') }}" class="btn btn-success mb-3">➕ إضافة جندي جديد</a>
         </div>
+        <form method="GET" action="{{ route('soldiers.index') }}">
+    <label>
+        <input type="checkbox" name="status" value="1"
+               onchange="this.form.submit()" {{ request('status') ? 'checked' : '' }}>
+        عرض فقط الجنود اللي مش احازه
+    </label>
+</form>
           
           <!-- /.card-header -->
           <div class="card-body">
@@ -25,6 +32,12 @@
             <tr>
               <th>اسم الضابط</th>
               <th>رقم الشرطة</th>
+             
+              <th>تاريخ بداية العمل</th>
+              <th>في اجازه</th>
+              <th>اسم السرية</th>
+              <th>عمليات</th>
+              <th> 2 عمليات</th>
               <th>الرقم القومي</th>
               <th>تاريخ التجنيد</th>
               <th>تاريخ التفريغ من الخدمة</th>
@@ -34,10 +47,8 @@
               <th>حالة خاصة</th>
               <th>الوظيفة</th>
               <th>الملاحظات</th>
-              <th>تاريخ بداية العمل</th>
-              <th>في اجازه</th>
-              <th>اسم السرية</th>
-              <th>عمليات</th>
+             
+
             </tr>
             </thead>
             <tbody>
@@ -45,17 +56,8 @@
         <tr>
           <td>{{ $soldier->name }}</td>
           <td>{{ $soldier->police_number }}</td>
-          <td>{{ $soldier->national_id }}</td>
-          <td>{{ $soldier->date_of_conscription }}</td>
-          <td>{{ $soldier->discharge_from_conscription }}</td>
-          <td>{{ $soldier->governorate }}</td>
-          <td>{{ $soldier->phone_number }}</td>
-          <td>{{ $soldier->medical_condition }}</td>
-          <td>{{ $soldier->special_case ? __('yes') : __('no') }}</td>
-          <td>{{ $soldier->job }}</td>
-          <td>{{ $soldier->notes }}</td>
-          <td>{{ $soldier->work_start_date }}</td>
-          <td>{{ $soldier->on_leave ? __('yes') : __('no') }}</td>
+          <td>{{ $soldier->start_date }}</td>
+          <td>{{ $soldier->status ? __('yes') : __('no') }}</td>
           <td>{{ $soldier->regiment->name ?? __('not_specified') }}</td>
           <td>
     <a href="{{ route('soldiers.edit', $soldier->id) }}" class="btn btn-warning btn-sm">تعديل</a>
@@ -65,6 +67,27 @@
         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
     </form>
 </td>
+<td>
+  <form action="{{ route('soldiers.updateStatus', $soldier->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+    <select name="status" onchange="this.form.submit()">
+      <option value="leave" {{ $soldier->status === 'leave' ? 'selected' : '' }}>إجازة</option>
+      <option value="working" {{ $soldier->status === 'working' ? 'selected' : '' }}>مش إجازة</option>
+    </select>
+  </form>
+</td>
+          <td>{{ $soldier->national_id }}</td>
+          <td>{{ $soldier->date_of_conscription }}</td>
+          <td>{{ $soldier->discharge_from_conscription }}</td>
+          <td>{{ $soldier->governorate }}</td>
+          <td>{{ $soldier->phone_number }}</td>
+          <td>{{ $soldier->medical_condition }}</td>
+          <td>{{ $soldier->special_case ? __('yes') : __('no') }}</td>
+          <td>{{ $soldier->job }}</td>
+          <td>{{ $soldier->notes }}</td>
+ 
+
 <!-- SELECT COUNT(*) FROM soldiers WHERE regiment_id = 3;
  -->
 

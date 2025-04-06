@@ -131,11 +131,11 @@
       @enderror
           <label for="exampleInputFile">السرية</label>
           <select name="regiment_id" id="regiment_id" class="form-control" required>
-          <option value="">اختر السرية</option>
-          @foreach ($regiments as $regiment)
-        <option value="{{ $regiment->id }}">{{ $regiment->name }}</option>
-      @endforeach
-          </select>
+  <option value="">اختر السرية</option>
+  @foreach ($regiments as $regiment)
+    <option value="{{ $regiment->id }}">{{ $regiment->name }}</option>
+  @endforeach
+</select>
         </div>
         </div>
       </div>

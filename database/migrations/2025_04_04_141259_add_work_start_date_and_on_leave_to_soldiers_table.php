@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::table('soldiers', function (Blueprint $table) {
             $table->dateTime('work_start_date')->nullable();
-            $table->boolean('on_leave')->default(false);
-        });
+         });
     }
 
     /**

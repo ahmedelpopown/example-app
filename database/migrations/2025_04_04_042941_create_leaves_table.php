@@ -18,6 +18,7 @@ return new class extends Migration
         $table->date('end_date');    
         $table->text('vacation_reason');  
         $table->foreignId('soldier_id')->constrained()->onDelete('cascade'); 
+        
         });
     }
 

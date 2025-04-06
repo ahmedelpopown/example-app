@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('soldiers', function (Blueprint $table) {
-            // $table->dropColumn('authority');
+            $table->boolean('is_on_leave')->default(false); // تحديد الجندي في إجازة أو لا
+
         });
     }
 
@@ -22,6 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('soldiers', function (Blueprint $table) {
-         });
+            $table->boolean('is_on_leave')->default(false); // تحديد الجندي في إجازة أو لا
+
+        });
     }
 };

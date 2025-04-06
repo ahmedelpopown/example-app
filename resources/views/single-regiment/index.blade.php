@@ -46,6 +46,8 @@
             <th>حاله خاصه</th>
 
             <th>بدء العمل</th>
+            <th>ايام العمال</th>
+            <th>  اجازه </th>
             <th>عمليات</th>
             </tr>
           </thead>
@@ -79,6 +81,9 @@
 
         <td>{{$soldier->special_case}}</td>
         <td>{{$soldier->start_date}}</td>
+        <td>{{$soldier->work_days}}</td>
+        <td>{{ $soldier->status ? 'في إجازة' : 'يعمل' }}</td>
+
 
         <td>
     <a href="{{ route('soldiers.show', $soldier->id) }}" class="btn btn-info btn-sm">عرض</a>
@@ -88,6 +93,7 @@
         @method('DELETE')
         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
     </form>
+ 
 </td>
          
       </tr>

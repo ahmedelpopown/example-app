@@ -14,12 +14,17 @@ class SoldierSeeder extends Seeder
      */
     public function run(): void
     {
-           // أنشئ فوج
-    $regiment = Regiment::factory()->create();
+      
+        $regiments = Regiment::all();
 
-    // أنشئ جنود مرتبطين بهذا الفوج
-    Soldier::factory(10)->create([
-        'regiment_id' => $regiment->id,
-    ]);
+        if ($regiments->count() === 0) {
+            throw new \Exception('يجب إنشاء السرايا أولاً قبل إنشاء الجنود.');
+        }
+    
+        // إنشاء 3000 جندي وتوزيعهم على 10 سرايا
+        Soldier::factory(100)->create()->each(function ($soldier, $index) use ($regiments) {
+            $regiment = $regiments[$index % $regiments->count()];
+            $soldier->regiment()->associate($regiment)->save();
+        });
     }
 }

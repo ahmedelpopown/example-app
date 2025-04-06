@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('soldiers', function (Blueprint $table) {
-            // $table->dropColumn('authority');
+              $table->date('leave_start_date')->nullable();
+            $table->date('leave_end_date')->nullable();
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('soldiers', function (Blueprint $table) {
-         });
+ 
+        });
     }
 };

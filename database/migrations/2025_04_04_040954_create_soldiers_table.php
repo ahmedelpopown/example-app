@@ -11,6 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('soldiers', function (Blueprint $table) {
+
             $table->id();
             $table->string('name');
             $table->string('police_number');
@@ -22,13 +23,10 @@ return new class extends Migration {
             $table->string('medical_condition');
             $table->string('confidentiality');
             $table->string('job');
-
             $table->text('notes')->nullable(); // ملاحظات
             $table->boolean('special_case')->default(false); // حالة خاصة
             $table->dateTime('start_date'); // تاريخ البدء
             $table->foreignId('regiment_id')->constrained()->onDelete('cascade'); // العلاقة مع الفرق
-            
-
             $table->timestamps();
         });
     }

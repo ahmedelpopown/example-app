@@ -15,7 +15,9 @@ class SoldiersDataController extends Controller
         // $soldiers = Soldier::all(); // جلب الجنود من قاعدة البيانات
         
         // return view('soldiers-data.index', compact('soldiers')); // إظهار الجنود في View
-        $soldiers = Soldier::with('regiment')->get();
+        $soldiers = Soldier::with('regiment')
+        ->where('status', 'leave')
+        ->get();
         return view('soldiers-data.index',compact('soldiers'));
     }
 

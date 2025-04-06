@@ -13,14 +13,24 @@ class SoldiersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
          // جلب جميع الجنود مع بيانات الفرقة
-    $soldiers = Soldier::with('regiment')->get();
-    
-    $regiments = Regiment::all();
+    $soldiers = Soldier::with('regiment') ;
+    $regiments = Regiment::select('id', 'name')->get();
+    $soldiers = Soldier::with('regiment');
+
+    // فلترة حسب الحالة (إجازة فقط)
+    if ($request->has('status') && $request->status) {
+        $soldiers->where('status', 'working'); // لو Boolean: استبدل بـ true
+    }
+
+    $soldiers = $soldiers->get();
+
+     
  
-    return view('soldiers.index', compact('soldiers', 'regiments'));
+ 
+    return view('soldiers-data.index', compact('soldiers',"regiments"));
     }
 
     /**
@@ -46,6 +56,7 @@ class SoldiersController extends Controller
         // ربط الجندي بالفرقة المحددة (في حالة علاقة one-to-many)
         $soldier->regiment()->associate($request->regiment_id);
         $soldier->save(); // حفظ التغييرات
+        
     
         // إعادة التوجيه بعد إضافة الجندي
         return redirect()->route('soldiers.index')->with('success', 'تم إضافة الجندي بنجاح');
@@ -99,4 +110,16 @@ class SoldiersController extends Controller
     // بعد الحذف، العودة إلى صفحة الجنود مع رسالة نجاح
     return redirect()->route('regiment.index')->with('success', 'تم حذف الجندي بنجاح');
     }
+    public function updateStatus(Request $request, $id)
+
+{
+    $request->validate([
+        'status' => 'required|in:leave,working',
+    ]);
+    $soldier = Soldier::findOrFail($id);
+    $soldier->status = $request->status;
+    $soldier->save();
+
+    return back()->with('success', 'تم تحديث حالة الجندي');
+ }
 }
