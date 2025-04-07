@@ -16,6 +16,5 @@ return [
     'special_case' => '',
     'start_date' => '',
     'work_start_date' => '',
-    'on_leave' => '',
     'regiment' => '',
 ];

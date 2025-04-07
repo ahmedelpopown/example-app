@@ -15,6 +15,8 @@ class Leave extends Model
         'end_date',
         'vacation_reason',
         'soldier_id',
+        "endLeave",
+                'days',
     ];
 
     // العلاقة مع Soldier (Leave ينتمي إلى Soldier واحد)

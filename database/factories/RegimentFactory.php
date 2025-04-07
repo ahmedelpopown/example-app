@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class RegimentFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+
         ];
     }
 }

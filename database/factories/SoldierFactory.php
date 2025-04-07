@@ -31,12 +31,15 @@ class SoldierFactory extends Factory
                 'confidentiality' => $this->faker->randomElement(['عادي', 'سري', 'سري جداً']),
                
                 'job' => $this->faker->jobTitle,
+               'authority' => $this->faker->jobTitle,
+           'status' => 'working',
                 'notes' => $this->faker->optional()->sentence,
                 'special_case' => $this->faker->boolean,
-                'start_date' => $this->faker->dateTimeBetween('-1 month', 'now'),
+'endLeave' => Carbon::create(2025, 4, 1)->format('Y-m-d'),
+
+                 'start_date' => Carbon::createFromFormat('Y-m-d', '2025-04-01'),
                 'work_start_date' => Carbon::now()->subDays(rand(0, 30)),
-                'on_leave' => $this->faker->boolean(30),
-                'regiment_id' => Regiment::factory(), // يعمل فوج تلقائي لكل جندي
+                 'regiment_id' => Regiment::factory(), // يعمل فوج تلقائي لكل جندي
 
         ];
     }

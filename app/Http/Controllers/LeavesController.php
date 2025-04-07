@@ -17,52 +17,12 @@ class LeavesController extends Controller
     {
      
 
-        $data = Soldier::all(); // جلب جميع الجنود
-
-        foreach ($data as $value) {
-            $dataFromUser = $value->work_start_date;
-            
-            $start_date = Carbon::parse($dataFromUser);
-            $endDate = $start_date->copy()->addDays(20);  // إضافة 20 يومًا من تاريخ بداية العمل
-            
-            // حساب الفرق بين تاريخ البداية وتاريخ النهاية
-            $diffEndDate = $start_date->diffInDays($endDate);
-            
-            // إذا كان الفرق بين التاريخين هو 20 يومًا
-            $customDate = Carbon::parse('2025-04-06');
-        // التحقق من وجود إجازة للجندي بالفعل
- 
-        $existingLeave = Leave::where('soldier_id', $value->id)
-                              ->whereDate('start_date', '<=', $customDate)
-                              ->whereDate('end_date', '>=', $customDate)
-                              ->exists();
-        // إذا لم يكن لديه إجازة حالياً، نقوم بإضافتها
-        if ($value->status == 'existingLeave' && !$existingLeave ) {
-            
-                
-                // إضافة الجندي إلى جدول الإجازات
-                Leave::create([
-                    'name' => $value->name, // اسم الجندي
-                    'soldier_id' => $value->id, // ID الجندي
-                    'start_date' => Carbon::now(), // تاريخ بداية الإجازة (اليوم)
-                    'end_date' => Carbon::now()->addMinutes(1), // تاريخ نهاية الإجازة (9 أيام من اليوم)
-                    'vacation_reason' => 'إجازة دورية' // سبب الإجازة
-                ]);
-        
-                // تحديث حالة الجندي إلى "إجازة"
-            }else {
-                // echo "لا يوجد جنود ";
-            }
-        }
-        //  $levees = Leave::with('soldier')->get();
- 
- 
- 
-        $levees = Soldier::with('regiment')
-        ->where('status', 'leave') // أو 'إجازة' حسب القيم اللي بتسجلها
-        ->get();
-
-    return view('leaves.index', compact('levees'));
+        $levees = Leave::whereHas('soldier', function ($query) {
+            $query->where('status', 'leave');
+        })->with('soldier.regiment') // تحميل الجندي والسرية بتاعته
+          ->get();
+      
+    return view('leaves.index' ,compact('levees'));
 
 
 
@@ -116,4 +76,63 @@ class LeavesController extends Controller
     {
         //
     }
+    public function groupLeave(Request $request)
+    {
+        // جلب الجنود المختارين من checkbox
+        $selectedSoldierIds = $request->soldiers; 
+        $soldiers = Soldier::whereIn('id', $selectedSoldierIds)->get();
+    
+        foreach ($soldiers as $soldier) {
+            // تاريخ بداية العمل للجندي
+            $dataFromUser = $soldier->start_date;
+            $start_date = Carbon::parse($dataFromUser);
+            // حساب تاريخ بداية الإجازة (بعد 20 يوم من بداية العمل)
+            $endDate = $start_date->copy()->addDays(20);
+            
+            // حساب تاريخ نهاية الإجازة (على سبيل المثال، إضافة 10 أيام على بداية الإجازة)
+            $endLeave = $endDate->copy()->addDays(10);
+            
+            // الفرق بين تاريخ بداية الإجازة وبداية العمل
+            $r = ceil($endDate->diffInDays($start_date));
+            
+            // التاريخ الحالي
+            $customDate = Carbon::now()->toDateTimeString();
+    
+            // استخدام شرط المقارنة الصحيح
+            if ($r == 20) {
+                echo "true";
+            } else {
+                echo "false";
+            }
+            
+            // التحقق من وجود إجازة للجندي بالفعل
+            $existingLeave = Leave::where('soldier_id', $soldier->id)
+                                  ->whereDate('end_date', '<=', $customDate)
+                                  ->whereDate('vacation_reason', '>=', $customDate)
+                                  ->exists();
+    
+            // إذا لم يكن لديه إجازة حالياً وكان وضعه "working"، يتم إضافة إجازة جديدة
+            if ($soldier->status == 'working' && !$existingLeave) {
+                Leave::create([
+                    'name'            => $soldier->name,        // اسم الجندي
+                    'soldier_id'      => $soldier->id,          // ID الجندي
+                    'start_date'      => $endDate,         // تاريخ بداية الإجازة 
+                    'end_date'        => $endLeave      , // نهاية الإجازة (مثال)
+                    'vacation_reason' => $endLeave              // نهاية الإجازة (حسب المنطق)
+                ]);
+                $soldier->status = "leave";  // تحديث حالة الجندي إلى "إجازة"
+                $soldier->save();
+            }
+        }
+    
+        // جلب بيانات الإجازات مع الجندي والسرية الخاصة به
+        $levees = Leave::whereHas('soldier', function ($query) {
+                        $query->where('status', 'leave');
+                    })
+                    ->with('soldier.regiment')
+                    ->get();
+    
+        return view('leaves.index', compact('levees'));
+    }
+    
 }

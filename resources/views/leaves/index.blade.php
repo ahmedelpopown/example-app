@@ -25,19 +25,23 @@
             <tr>
               <th>ID</th>
               <th>اسم الضابط</th>
+              <th>تاريخ بدايه الاجازه</th>
+              <th>يوم العوده</th>
+              <th>اسم السريه</th>
          
             </tr>
             </thead>
             <tbody>
             @foreach ($levees as $levee)
         <tr>
-          <td>{{ $levee->id }}</td>
-          <td>{{  $levee->name }}</td>
+          <td>{{ $levee->soldier->id }}</td>
+          <td>{{  $levee->soldier->name }}</td>
+          <td>{{  $levee->start_date }}</td>
+          <td>{{  $levee->end_date }}</td>
+          <td>{{  $levee->soldier->regiment->name}}</td>
  
 
-<!-- SELECT COUNT(*) FROM soldiers WHERE regiment_id = 3;
- -->
-
+ 
         </tr>
       @endforeach
             </tbody>
